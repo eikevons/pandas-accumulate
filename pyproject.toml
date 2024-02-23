@@ -3,12 +3,22 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "pandas_accumulate"
+name = "pandas-accumulate"
 authors = [{name = "Eike von Seggern", email = "eike@vonseggern.space"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "numpy",
+    "pandas",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest >=7.2.1",
+]
 
 [tool.pytest.ini_options]
 addopts = [
