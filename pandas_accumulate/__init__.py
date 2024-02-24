@@ -1,6 +1,9 @@
 """Accumulate Pandas series"""
 
 __version__ = "0.1.0"
+__author__ = "Eike von Seggern <eike@vonseggern.space>"
+__copyright__ = "Copyright (c) 2024 Eike von Seggern"
+__licence__ = "MIT"
 
 from itertools import accumulate as it_accumulate
 from typing import Any, Callable, Literal, Optional, Union
@@ -79,6 +82,16 @@ def accumulate(
         else:
             dtype = s.dtype
 
+
+    # NOTE: I did some `%timeit` comparison with 
+    # `np.frompyfunc(f, 2, 1).accumulate(s.values)`. The results are rather
+    # similar for `f = lambda a, b: a | b`:
+    # size | itertools | frompyfunc
+    #------|-----------|-----------
+    # 1e5  | 19.1 ms   | 17.3 ms
+    # 1e6  | 185  ms   | 200  ms
+    # 1e7  | 2.06 s    | 1.98 s
+    # 1e8  | 20.8 s    | 21.1 s
     values = it_accumulate(s.values, f, initial=initial)
     if initial is not None:
         # Consume the initial value from the iterator. This is prepended by
