@@ -23,7 +23,6 @@ pip install pandas-accumulate
 Collect the unique values cumulatively. _Note_: You need to pass an
 `initial` value for the accumulation in this example:
 ```python
->>> import operator
 >>> import pandas as pd
 >>> from pandas_accumulate import accumulate
 >>> s = pd.Series([1,2,1,3,2])
@@ -46,7 +45,6 @@ If you're interested only in the number of unique values, just call `len` at
 the end:
 
 ```python
-
 >>> accumulate(s, f, initial=set()).map(len)
 0    1
 1    2
