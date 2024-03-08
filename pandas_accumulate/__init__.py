@@ -15,7 +15,7 @@ import pandas as pd
 def accumulate(
     s: pd.Series,
     f: Callable[[Any, Any], Any],
-    dtype: Optional[Union[np.dtype, Literal["same"]]] = None,
+    dtype: Optional[Union[np.dtype]] = None,
     initial: Optional[Any] = None,
 ):
     """Accumulate along a series.
@@ -33,7 +33,7 @@ def accumulate(
     dtype
         The dtype of the accumulated series. If ``None`` (default), it is
         the dtype of ``initial`` is used if ``initial`` is present or the
-        dtype of ``s``. If ``"same"`` the dtype of the input series (``s``) is used.
+        dtype of ``s``.
     initial
         Initial accumulator value.
 
@@ -74,14 +74,11 @@ def accumulate(
         [...]
         TypeError: unsupported operand type(s) for |: 'int' and 'set'
     """
-    if dtype == "same":
-        dtype = s.dtype
-    elif dtype is None:
+    if dtype is None:
         if initial is not None:
             dtype = pd.Series([initial]).dtype
         else:
             dtype = s.dtype
-
 
     # NOTE: I did some `%timeit` comparison with 
     # `np.frompyfunc(f, 2, 1).accumulate(s.values)`. The results are rather
