@@ -59,3 +59,10 @@ def test_length_0_series():
         accumulate(s, operator.add),
         s,
     )
+
+def test_length_0_series_non_default_dtype():
+    s = pd.Series([], dtype="int16")
+    pd.testing.assert_series_equal(
+        accumulate(s, operator.add),
+        s,
+    )

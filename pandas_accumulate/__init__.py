@@ -11,13 +11,15 @@ from typing import Any, Callable, Literal, Optional, Union
 import numpy as np
 import pandas as pd
 
+__all__ = ["accumulate"]
+
 
 def accumulate(
     s: pd.Series,
     f: Callable[[Any, Any], Any],
     dtype: Optional[Union[np.dtype]] = None,
     initial: Optional[Any] = None,
-):
+) -> pd.Series:
     """Accumulate along a series.
 
     Parameters
@@ -80,11 +82,11 @@ def accumulate(
         else:
             dtype = s.dtype
 
-    # NOTE: I did some `%timeit` comparison with 
+    # NOTE: I did some `%timeit` comparison with
     # `np.frompyfunc(f, 2, 1).accumulate(s.values)`. The results are rather
     # similar for `f = lambda a, b: a | b`:
     # size | itertools | frompyfunc
-    #------|-----------|-----------
+    # ------|-----------|-----------
     # 1e5  | 19.1 ms   | 17.3 ms
     # 1e6  | 185  ms   | 200  ms
     # 1e7  | 2.06 s    | 1.98 s
